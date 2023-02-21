@@ -1,55 +1,55 @@
 ''' 使用urllib库'''
 
-# # urllib库有四个模块 
+# urllib库有四个模块 
 import urllib.request
+import urllib.error
+import urllib.parse
+import urllib.robotparser
+
+
+# 对于这个库最简单的使用
+response = urllib.request.urlopen('https://www.python.org')
+print(response.read().decode('utf-8'))
+print(type(response))
+
+
+# http.client.HTTPResponse对象，以及这些对象的方法和属性
+from http.client import HTTPResponse
+print(response.status)
+print(response.getheaders())
+print(response.getheader('Server'))
+
+
+# urlopen()方法的参数
+'''
+def urlopen(url, data=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+            *, cafile=None, capath=None, cadefault=False, context=None): ...
+'''
+# data 参数
+data = bytes(urllib.parse.urlencode({'name': 'germey'}), encoding='utf-8')
+response = urllib.request.urlopen('https://www.httpbin.org/post', data=data)
+print(response.read().decode('utf-8'))
+
+# timeout 参数
+response = urllib.request.urlopen('https://www.httpbin.org/get', timeout=0.1)
+print(response.read())
+
+# 处理异常
+import socket
+import urllib.response
+# 上面引入了该库
 # import urllib.error
-# import urllib.parse
-# import urllib.robotparser
+try:
+    response = urllib.request.urlopen('https://www.httpbin.org/get', timeout=0.1)
+except urllib.error.URLError as e:
+    if isinstance(e.reason, socket.timeout):
+        print('TIMEOUT')
 
 
-# # 对于这个库最简单的使用
-# response = urllib.request.urlopen('https://www.python.org')
-# print(response.read().decode('utf-8'))
-# print(type(response))
-
-
-# # http.client.HTTPResponse对象，以及这些对象的方法和属性
-# from http.client import HTTPResponse
-# print(response.status)
-# print(response.getheaders())
-# print(response.getheader('Server'))
-
-
-# # urlopen()方法的参数
-# '''
-# def urlopen(url, data=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
-#             *, cafile=None, capath=None, cadefault=False, context=None): ...
-# '''
-# # data 参数
-# data = bytes(urllib.parse.urlencode({'name': 'germey'}), encoding='utf-8')
-# response = urllib.request.urlopen('https://www.httpbin.org/post', data=data)
-# print(response.read().decode('utf-8'))
-
-# # timeout 参数
-# response = urllib.request.urlopen('https://www.httpbin.org/get', timeout=0.1)
-# print(response.read())
-
-# # 处理异常
-# import socket
-# import urllib.response
-# # 上面引入了该库
-# # import urllib.error
-# try:
-#     response = urllib.request.urlopen('https://www.httpbin.org/get', timeout=0.1)
-# except urllib.error.URLError as e:
-#     if isinstance(e.reason, socket.timeout):
-#         print('TIMEOUT')
-
-
-# # Resquest
-# request = urllib.request.Request('https://python.org')
-# response = urllib.request.urlopen(request)
-# print(response.read().decode('utf-8'))
+# Resquest
+request = urllib.request.Request('https://python.org')
+response = urllib.request.urlopen(request)
+print(response.read().decode('utf-8'))
 
 # 测试参数
 url = 'https://www.httpbin.org/post'
@@ -65,3 +65,92 @@ print(response.read().decode('utf-8'))
 
 
 # Handler
+username = 'admin'
+password = 'admin'
+url = 'https://ssr3.scrape.center/'
+
+p = urllib.request.HTTPPasswordMgrWithDefaultRealm()
+p.add_password(None, url, username, password)
+auth_handler = urllib.request.HTTPBasicAuthHandler(p)
+opener = urllib.request.build_opener(auth_handler)
+try:
+    result = opener.open(url)
+    html = result.read().decode('utf-8')
+    print(html)
+except urllib.error.URLError as e:
+    print(e)
+
+# 代理
+proxy_handler = urllib.request.ProxyHandler({
+    'http': 'http://127.0.0.1:8080',
+    'https': 'https://127.0.0.1:8080'
+})
+opener = urllib.request.build_opener(proxy_handler)
+try:
+    response = opener.open('https://www.baidu.com')
+    print(response.read().decode('utf-8'))
+except urllib.error.URLError as e:
+    print(e.reason)
+
+# Cookie
+import http.cookiejar
+# 因为上面已导入该库
+# import urllib.request
+cookie = http.cookiejar.CookieJar()
+handler = urllib.request.HTTPCookieProcessor(cookie)
+opener = urllib.request.build_opener(handler)
+response = opener.open('https://www.baidu.com')
+for item in cookie:
+    print(item.name + "=" + item.value)
+
+# 将cookie导入文件中
+# filename = 'mozilla_cookie.txt'
+# cookie = http.cookiejar.MozillaCookieJar(filename)
+# LWP格式文件
+filename = 'lwp_cookie.txt'
+cookie = http.cookiejar.LWPCookieJar(filename)
+handler = urllib.request.HTTPCookieProcessor(cookie)
+opener = urllib.request.build_opener(handler)
+response = opener.open('https://www.baidu.com')
+cookie.save(ignore_discard=True, ignore_expires=True)
+
+# 读取cookie文件
+cookie = http.cookiejar.LWPCookieJar()
+cookie.load('lwp_cookie.txt', ignore_discard=True, ignore_expires=True)
+handler = urllib.request.HTTPCookieProcessor(cookie)
+opener = urllib.request.build_opener(handler)
+response = opener.open('https://www.baidu.com')
+print(response.read().decode('utf-8'))
+
+
+# 处理异常
+# URLError
+try:
+    response = urllib.request.urlopen('https://cuiqingcai.com/404')
+except urllib.error.URLError as e:
+    print(e.reason)
+
+# HTTPError
+try:
+    response = urllib.request.urlopen('https://cuiqingcai.com/404')
+except urllib.error.HTTPError as e:
+    print(e.reason, e.code, e.headers, sep='\n')
+
+
+# 先处理子类，再处理父类
+try:
+    response = urllib.request.urlopen('https://cuiqingcai.com/404')
+except urllib.error.HTTPError as e:
+    print(e.reason, e.code, e.headers, sep='\n')
+except urllib.error.URLError as e:
+    print(e.reason)
+else:
+    print('Request Successfully')
+
+import socket
+try:
+    response = urllib.request.urlopen('https://www.baidu.com', timeout=0.01)
+except urllib.error.URLError as e:
+    print(e.reason)
+    if isinstance(e.reason, socket.timeout):
+        print('TIME OUT')
