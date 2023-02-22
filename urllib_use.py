@@ -1,4 +1,4 @@
-''' 使用urllib库'''
+# ''' 使用urllib库'''
 
 # urllib库有四个模块 
 import urllib.request
@@ -154,3 +154,111 @@ except urllib.error.URLError as e:
     print(e.reason)
     if isinstance(e.reason, socket.timeout):
         print('TIME OUT')
+
+
+# 解析链接
+
+# urlparse
+result = urllib.parse.urlparse('https://www.baidu.com/index.html;user?id=5#comment')
+print(type(result))
+print(result)
+
+result = urllib.parse.urlparse('www.baidu.com/index.html;user?id=5#comment', scheme='https')
+print(result)
+
+result = urllib.parse.urlparse('http://www.baidu.com/index.html;user?id=5#comment', scheme='https')
+print(result)
+
+result = urllib.parse.urlparse('https://www.baidu.com/index.html;user?id=5#comment', allow_fragments=False)
+print(result)
+
+result = urllib.parse.urlparse('https://www.baidu.com/index.html#comment', allow_fragments=False)
+print(result)
+
+result = urllib.parse.urlparse('https://www.baidu.com/index.html#comment', allow_fragments=False)
+print(result.scheme, result[0], result.netloc, result[1], sep='\n')
+
+# urlunparse
+# 必须传入六个参数
+data = ['https', 'www.baidu.com', 'index.html', 'user', 'a=6', 'comment']
+print(urllib.parse.urlunparse(data))
+
+# urlsplit
+result = urllib.parse.urlsplit('https://www.baidu.com/index.html;user?id=5#comment')
+print(result)
+
+# 该方法得到的结果也是一个元组
+result = urllib.parse.urlsplit('https://www.baidu.com/index.html;user?id=5#comment')
+print(result[0])
+
+
+# urlunsplit
+# 同理该方法传入的参数必须为5
+data = ['https', 'www.baidu.com', 'index.html', 'a=6', 'comment']
+print(urllib.parse.urlunsplit(data))
+
+# urljoin
+from urllib.parse import urljoin
+print(urljoin('https://www.baidu.com', 'FAQ.html'))
+print(urljoin('https://www.baidu.com', 'https://cuiqingcai.com/FAQ.html'))
+print(urljoin('https://www.baidu.com/about.html', 'https://cuiqingcai.com/FAQ.html'))
+print(urljoin('https://www.baidu.com/about.html', 'https://cuiqingcai.com/FAQ.html?question=2'))
+print(urljoin('https://www.baidu.com?wd=abc', 'https://cuiqingcai.com/index.php'))
+print(urljoin('https://www.baidu.com', '?category=2#comment'))
+print(urljoin('www.baidu.com', '?category=2#comment'))
+print(urljoin('www.baidu.com#comment', '?category=2'))
+
+# urlencode
+from urllib.parse import urlencode
+
+params = {
+    'name': 'germey',
+    'age': 25
+}
+base_url = 'https://www.baidu.com?'
+url = base_url + urlencode(params)
+print(url)
+
+# parse_qs
+from urllib.parse import parse_qs
+
+query = 'name=germey&age=25'
+print(parse_qs(query))
+
+from urllib.parse import parse_qsl
+query = 'name=germey&age=25'
+print(parse_qsl(query))
+
+# quote
+from urllib.parse import quote
+
+keyword = '壁纸'
+url = 'https://www.baidu.com/s?wd=' + quote(keyword)
+print(url)
+
+# unquote
+from urllib.parse import unquote
+url = 'https://www.baidu.com/s?wd=%E5%A3%81%E7%BA%B8'
+print(unquote(url))
+
+
+# Robots协议
+
+from urllib.robotparser import RobotFileParser
+
+rp = RobotFileParser()
+rp.set_url('https://www.baidu.com/robots.txt')
+rp.read()
+print(rp.can_fetch('Baiduspider', 'https://www.baidu.com'))
+print(rp.can_fetch('BaiduSpider', 'https://www.baidu.com/homepage/'))
+print(rp.can_fetch('Googlebot', 'https://www.baidu.com/homepage/'))
+
+# 也可以使用parse方法对robots.txt文件读取和分析
+from urllib.request import urlopen
+from urllib.robotparser import RobotFileParser
+
+rp = RobotFileParser()
+rp.parse(urlopen('https://www.baidu.com/robots.txt').read().decode('utf-8').split('\n'))
+print(rp.can_fetch('Baiduspider', 'https://www.baidu.com'))
+print(rp.can_fetch('BaiduSpider', 'https://www.baidu.com/homepage/'))
+print(rp.can_fetch('Googlebot', 'https://www.baidu.com/homepage/'))
