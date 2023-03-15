@@ -45,6 +45,7 @@ print('result2', result2.group(1))
 # 修饰符
 content = '''Hello 1234567 World_This 
 is a Regex Demo'''
+# 使用re.S可以去除HTML节点中的换行问题
 result = re.match('^He.*?(\d+).*?Demo$', content, re.S)
 print(result.group(1))
 
