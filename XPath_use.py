@@ -126,17 +126,23 @@ print(result)
 
 # 节点轴选择
 html = etree.HTML(text)
+# 获取所有祖先节点
 result = html.xpath('//li[1]/ancestor::*')
 print(result)
 result = html.xpath('//li[1]/ancestor::div')
 print(result)
+# 获取所有属性值
 result = html.xpath('//li[1]/attribute::*')
 print(result)
+# 获取所有直接子节点
 result = html.xpath('//li[1]/child::a[@href="link1.html"]')
 print(result)
+# 获取所有子孙节点
 result = html.xpath('//li[1]/descendant::span')
 print(result)
+# 获取当前节点之后的所有节点
 result = html.xpath('//li[2]/following::*[2]')
 print(result)
+# 获取当前节点之后的所有同级节点
 result = html.xpath('//li[1]/following-sibling::*')
 print(result)
