@@ -1,4 +1,4 @@
-# ''' 使用urllib库'''
+''' 使用urllib库'''
 
 # urllib库有四个模块 
 import urllib.request
