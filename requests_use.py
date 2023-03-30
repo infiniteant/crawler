@@ -19,7 +19,7 @@ response = requests.put('http://www.httpbin.org/put')
 response = requests.delete('http://www.httpbin.org/delete')
 response = requests.patch('http://www.httpbin.org/patch')
 
-GET请求
+# GET请求
 response = requests.get('http://www.httpbin.org/get')
 print(response.text)
 
@@ -62,7 +62,7 @@ response = requests.get('https://scrape.center/', headers=headers)
 print(response.text)
 
 
-POST请求
+# POST请求
 
 data = {'name': 'germey', 'age': '25'}
 response = requests.post('https://www.httpbin.org/post', data=data)
@@ -77,7 +77,7 @@ print(type(response.cookies), response.cookies)
 print(type(response.url), response.url)
 print(type(response.history), response.history)
 
-状态码
+# 状态码
 response = requests.get('https://ssr1.scrape.center/')
 exit() if not response.status_code == requests.codes.ok else print('Resquest Successfully')
 
@@ -112,7 +112,7 @@ response = requests.get('https://github.com/', cookies=jar, headers=headers)
 print(response.text)
 
 
-Session
+# Session
 requests.get('https://www.httpbin.org/cookies/set/number/123456789')
 response = requests.get('https://www.httpbin.org/cookies')
 print(response.text)
@@ -153,7 +153,7 @@ print(response.status_code)
 response = requests.get('https://www.httpbin.org/get', timeout=(5,30))
 print(response.status_code)
 
-永久等待设置为None或者不设置
+# 永久等待设置为None或者不设置
 response = requests.get('https://www.httpbin.org/get', timeout=None)
 response = requests.get('https://www.httpbin.org/get')
 

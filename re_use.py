@@ -111,3 +111,4 @@ result1 = re.sub(pattern, '', content1)
 result2 = re.sub(pattern, '', content2)
 result3 = re.sub(pattern, '', content3)
 print(result1, result2, result3)
+
