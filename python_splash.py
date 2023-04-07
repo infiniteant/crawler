@@ -1,4 +1,7 @@
-# 调用
+# 调用Splash提供的API
+
+# render.html
+
 import requests
 
 url = 'http://localhost:8050/render.html?url=https://www.baidu.com'
@@ -67,6 +70,3 @@ print(response.text)
 
 # 负载均衡
 # 配置负载均衡器Splash提供的API
-
-# render.html
-
