@@ -1,0 +1,10 @@
+2023/04/07-14:43:53.439 5712 Reusing MANIFEST leveldb/MANIFEST-000001
+2023/04/07-14:43:53.440 5712 Recovering log #4
+2023/04/07-14:43:53.441 5712 Reusing old log leveldb/000004.log 
+2023/04/07-14:44:02.932 20304 Level-0 table #8: started
+2023/04/07-14:44:02.938 16344 Current memtable full; waiting...
+2023/04/07-14:44:02.940 20304 Level-0 table #8: 348334 bytes OK
+2023/04/07-14:44:02.942 20304 Delete type=0 #4
+2023/04/07-14:44:02.943 20304 Level-0 table #10: started
+2023/04/07-14:44:02.946 20304 Level-0 table #10: 102824 bytes OK
+2023/04/07-14:44:02.949 20304 Delete type=0 #7
